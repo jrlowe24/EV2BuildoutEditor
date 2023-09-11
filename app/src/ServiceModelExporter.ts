@@ -63,7 +63,6 @@ function CreateServiceResourceDefinitions(serviceResourceName: string, rolloutPa
         },
         scopeTags: []
     }
-    console.log("here")
 
     scopeTags.forEach((tag) => {
         const newScopeTag: ScopeTag = {
@@ -71,9 +70,6 @@ function CreateServiceResourceDefinitions(serviceResourceName: string, rolloutPa
         }
         newServiceResourceDefinition.scopeTags.push(newScopeTag);
     }) 
-
-    console.log("here")
-
 
     return newServiceResourceDefinition;
 }

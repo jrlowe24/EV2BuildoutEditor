@@ -101,14 +101,13 @@ const OverviewFlow = () => {
     const serviceModelMetadata = TestServiceMetadata;
     const serviceResourceDefinitions = [];
     const orchestratedSteps = [];
-    console.log("here")
     nodes.forEach((node) => {
       // create resourcedef for each resource
       if (node.data.rolloutSpec === currentRolloutSpec) {
 
         // we probably want to move this processing code elsewhere
         //service model
-        const serviceResourceName = "";
+        const serviceResourceName = nodeProperties[node.id].targetName;
         const rolloutParameterPath = "Parameters\\Keyvault.arm.template.json"; // need to parameterize these
         const templatePath = "Templates\\Keyvault.arm.template.json";
         const scopeTags = nodeProperties[node.id].scopeTags;
