@@ -64,7 +64,17 @@ function ResourceNode({ id, x, y, data }) {
     }
   };
 
-  const handleCreateParameter = () => {};
+  const handleCreateParameter = () => {
+
+    const newParameter = {
+      name: newParameterName,
+      value: selectedVariable,
+    };
+    console.log(newParameter)
+    setParameters([...parameters, newParameter]);
+    setNewParameterName("");
+    setSelectedVariable("");
+  };
 
   const updateTemplate = (newTemplate) => {
     setTemplate(newTemplate.jsObject);
@@ -218,10 +228,7 @@ function ResourceNode({ id, x, y, data }) {
                   <select
                     id="variableGroupSelect"
                     value={selectedVariableGroup}
-                    onChange={(e) => {
-                        setSelectedVariableGroup(e.target.value)
-                        console.log("Selected: ", e.target.value)
-                    }}
+                    onChange={(e) => setSelectedVariableGroup(e.target.value)}
                   >
                     <option value="">Select a Scope Tag</option>
                     {data.variableGroups.map((group) => (
@@ -242,94 +249,83 @@ function ResourceNode({ id, x, y, data }) {
                     ))}
                   </ul>
                 </div>
-                <div
+
+                  <strong>Parameter List</strong>
+                  <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
                   }}
                 >
-                  <strong>Parameter List</strong>
-                  <TextField
-                    value={newParameterName}
-                    id="standard-basic"
-                    label="New Paramter Name"
-                    variant="standard"
-                    onChange={(e) => setNewParameterName(e.target.value)}
-                  />
-                  <select
-                    id="groupSelect"
-                    value={selectedVariable}
-                    onChange={(e) => {
-                      console.log("Selected Value:", e.target.value);
-                      setSelectedVariable(e.target.value);
-                    }}
-                    style={{ width: "200px" }}
-                  >
-                    {data.variableGroups
-                      .filter((group) =>
-                        selectedVariableGroups.includes(group.name)
-                      )
-                      .map((group) => (
-                        <optgroup key={group.name} label={group.name}>
-                          {group.variables.map((variable, index) => (
-                            <option key={index} value={variable.name}>
-                              {variable.name}
-                            </option>
-                          ))}
-                        </optgroup>
-                      ))}
-                  </select>
-                  <IconButton
-                    variant="contained"
-                    color="primary"
-                    onClick={handleCreateParameter}
-                    style={{
-                      borderRadius: "50%", // Set the border radius to make it round
-                      padding: "8px", // Add some padding to the button
-                      width: "35px",
-                      height: "35px",
-                    }}
-                  >
-                    <AddIcon sx={{ fontSize: 25 }} />
-                  </IconButton>
-                </div>
-                <div>
-                  {parameters.map((parameter, index) => (
-                    <div
-                      key={index}
-                      style={{ display: "flex", marginBottom: "8px" }}
+                  <div>
+                    <TextField
+                      value={newParameterName}
+                      id="standard-basic"
+                      label="New Paramter Name"
+                      variant="standard"
+                      onChange={(e) => setNewParameterName(e.target.value)}
+                    />
+                    <select
+                      id="groupSelect"
+                      value={selectedVariable}
+                      onChange={(e) => {
+                        console.log("Selected Value:", e.target.value);
+                        setSelectedVariable(e.target.value);
+                      }}
+                      style={{ width: "200px" }}
                     >
-                      <TextField
-                        label="Parameter Name"
-                        variant="standard"
-                        value={parameter.name}
-                        onChange={(e) => {
-                          const updatedParameters = [...parameters];
-                          updatedParameters[index].name = e.target.value;
-                          setParameters(updatedParameters);
-                        }}
-                        inputProps={{ style: { fontSize: 9 } }}
-                        InputLabelProps={{ style: { fontSize: 9 } }}
-                        style={{ marginRight: "8px" }}
-                      />
-                      <select
-                        value={parameter.variableGroup}
-                        onChange={(e) => {
-                          const updatedParameters = [...parameters];
-                          updatedParameters[index].variableGroup =
-                            e.target.value;
-                          setParameters(updatedParameters);
-                        }}
-                      >
-                        <option value="">Select a Scope Tag</option>
-                        {selectedVariableGroups.map((group) => (
-                          <option key={group} value={group}>
-                            {group}
-                          </option>
+                    <option value="">Select a Variable</option>
+                      {data.variableGroups
+                        .filter((group) =>
+                          selectedVariableGroups.includes(group.name)
+                        )
+                        .map((group) => (
+                          <optgroup key={group.name} label={group.name}>
+                            {group.variables.map((variable, index) => (
+                              <option key={index} value={variable.name}>
+                                {variable.name}
+                              </option>
+                            ))}
+                          </optgroup>
                         ))}
-                      </select>
+                    </select>
+                    <IconButton
+                      variant="contained"
+                      color="primary"
+                      onClick={handleCreateParameter}
+                      style={{
+                        borderRadius: "50%", // Set the border radius to make it round
+                        padding: "8px", // Add some padding to the button
+                        width: "35px",
+                        height: "35px",
+                      }}
+                    >
+                      <AddIcon sx={{ fontSize: 25 }} />
+                    </IconButton>
+                  </div>
+                </div>
+                <div style={{ marginTop: "20px" }}>
+                  {parameters.map((parameter, index) => (
+                      <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>{parameter.name}</span>
+                      <span>{parameter.value}</span>
                     </div>
+                    <hr style={{width: "100%"}}></hr>
+                    </div>
+                    
                   ))}
                 </div>
               </div>
