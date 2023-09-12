@@ -74,6 +74,7 @@ function ResourceNode({ id, x, y, data }) {
     setParameters([...parameters, newParameter]);
     setNewParameterName("");
     setSelectedVariable("");
+    updateProperties();
   };
 
   const updateTemplate = (newTemplate) => {
@@ -93,6 +94,7 @@ function ResourceNode({ id, x, y, data }) {
       targetName: targetName,
       template: template,
       scopeTags: selectedVariableGroups,
+      parameters: parameters
     };
     currProperties[id] = newProperties;
 

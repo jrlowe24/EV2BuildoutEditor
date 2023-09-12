@@ -27,8 +27,10 @@ const minimapStyle = {
   height: 120,
 };
 
+
 const initialVariableGroups = [
-  { name: 'Global', variables: [{ name: "ResourceGroupName", value: "TestResourceGroup" }] }
+  { name: 'GlobalTags', variables: [{ name: "__RESOURCE_GROUP_NAME__", value: "TestResourceGroup" }, { name: "__LOCATION__", value: "$(location)" }] },
+  { name: 'KeyVaultTags', variables: [{ name: "__KEYVAULT_NAME__", value: "$config(kv.name)" }, { name: "__FIRST_PARTY_APP_ID_", value: "$config(ownergroupappid)" }] },
 ];
 
 const initialEdges = []
