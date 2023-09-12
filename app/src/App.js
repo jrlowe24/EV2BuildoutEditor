@@ -78,7 +78,12 @@ const OverviewFlow = () => {
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
+  // Need to fix this, deleted a source node will delete all target nodes
   const deleteNode = (id) => {
+
+    const updatedEdges = edges.filter((edge) => edge.source.id !== id && edge.target.id !== id);
+    setEdges(updatedEdges);
+
     const updatedNodes = nodes.filter((node) => node.id !== id);
     setNodes(updatedNodes); // Update the nodes state
   }
