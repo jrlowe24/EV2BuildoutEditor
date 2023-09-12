@@ -13,6 +13,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import { FormControl, InputLabel, ListSubheader } from "@mui/material";
 
 function ResourceNode({ id, x, y, data }) {
   const [resourceType, setResourceType] = useState(data.resourcetype);
@@ -20,8 +23,13 @@ function ResourceNode({ id, x, y, data }) {
   const [template, setTemplate] = useState(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const [selectedVariableGroups, setSelectedVariableGroups] = useState([]);
-  const [selectedVariableGroup, setSelectedVariableGroup] = useState("");
+  const [selectedVariableGroups, setSelectedVariableGroups] = useState([]); // scope tags that have been added to this resource step
+  const [selectedVariableGroup, setSelectedVariableGroup] = useState(""); // currently selected scope  tag from drop down
+
+  const [parameters, setParameters] = useState([]); // all params on this resource
+  const [newParameterName, setNewParameterName] = useState(""); // name of new paramter
+  const [selectedVariable, setSelectedVariable] = useState(""); // the selected variable we will add to new paramter
+
   const [targetName, setTargetName] = useState("");
   const [orchestratedStepName, setOrchestratedStepName] = useState("");
 
@@ -47,6 +55,7 @@ function ResourceNode({ id, x, y, data }) {
 
   const handleAddVariableGroup = () => {
     if (selectedVariableGroup) {
+      // data.variableGroups.
       setSelectedVariableGroups([
         ...selectedVariableGroups,
         selectedVariableGroup,
@@ -54,6 +63,8 @@ function ResourceNode({ id, x, y, data }) {
       setSelectedVariableGroup(""); // Clear the selected group
     }
   };
+
+  const handleCreateParameter = () => {};
 
   const updateTemplate = (newTemplate) => {
     setTemplate(newTemplate.jsObject);
@@ -68,18 +79,18 @@ function ResourceNode({ id, x, y, data }) {
   const updateProperties = () => {
     const currProperties = data.nodeProperties;
     const newProperties = {
-        stepName: orchestratedStepName,
-        targetName: targetName,
-        template: template,
-        scopeTags: selectedVariableGroups
-      };
-      currProperties[id] = newProperties;
-  
-      // Call the callback function to update properties in the parent component
-      if (data.setNodeProperties) {
-        data.setNodeProperties(currProperties);
-      }
-  }
+      stepName: orchestratedStepName,
+      targetName: targetName,
+      template: template,
+      scopeTags: selectedVariableGroups,
+    };
+    currProperties[id] = newProperties;
+
+    // Call the callback function to update properties in the parent component
+    if (data.setNodeProperties) {
+      data.setNodeProperties(currProperties);
+    }
+  };
 
   const deleteResource = () => {
     data.deleteNode(id);
@@ -100,7 +111,10 @@ function ResourceNode({ id, x, y, data }) {
           id="standard-basic"
           label="Target Name"
           variant="standard"
-          onChange={(e) => {setTargetName(e.target.value); updateProperties()}}
+          onChange={(e) => {
+            setTargetName(e.target.value);
+            updateProperties();
+          }}
           inputProps={{ style: { fontSize: 9 } }} // font size of input text
           InputLabelProps={{ style: { fontSize: 9 } }} // font size of input label
         />
@@ -139,7 +153,10 @@ function ResourceNode({ id, x, y, data }) {
             id="standard-basic"
             label="Step Name"
             variant="standard"
-            onChange={(e) =>{setOrchestratedStepName(e.target.value); updateProperties()}}
+            onChange={(e) => {
+              setOrchestratedStepName(e.target.value);
+              updateProperties();
+            }}
             inputProps={{ style: { fontSize: 9 } }} // font size of input text
             InputLabelProps={{ style: { fontSize: 9 } }} // font size of input label
             style={{ marginBottom: "8px", width: "70%" }}
@@ -198,13 +215,13 @@ function ResourceNode({ id, x, y, data }) {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <h5>Parameters</h5>
                 <div>
-                  <label htmlFor="variableGroupSelect">
-                    Select Scope Tag:{" "}
-                  </label>
                   <select
                     id="variableGroupSelect"
                     value={selectedVariableGroup}
-                    onChange={(e) => setSelectedVariableGroup(e.target.value)}
+                    onChange={(e) => {
+                        setSelectedVariableGroup(e.target.value)
+                        console.log("Selected: ", e.target.value)
+                    }}
                   >
                     <option value="">Select a Scope Tag</option>
                     {data.variableGroups.map((group) => (
@@ -225,13 +242,96 @@ function ResourceNode({ id, x, y, data }) {
                     ))}
                   </ul>
                 </div>
-                <span>
-                  Create a UI for editing the parameters and pulling in scope{" "}
-                </span>
-                <span>
-                  {" "}
-                  bindings variables that can be used in the arm template
-                </span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <strong>Parameter List</strong>
+                  <TextField
+                    value={newParameterName}
+                    id="standard-basic"
+                    label="New Paramter Name"
+                    variant="standard"
+                    onChange={(e) => setNewParameterName(e.target.value)}
+                  />
+                  <select
+                    id="groupSelect"
+                    value={selectedVariable}
+                    onChange={(e) => {
+                      console.log("Selected Value:", e.target.value);
+                      setSelectedVariable(e.target.value);
+                    }}
+                    style={{ width: "200px" }}
+                  >
+                    {data.variableGroups
+                      .filter((group) =>
+                        selectedVariableGroups.includes(group.name)
+                      )
+                      .map((group) => (
+                        <optgroup key={group.name} label={group.name}>
+                          {group.variables.map((variable, index) => (
+                            <option key={index} value={variable.name}>
+                              {variable.name}
+                            </option>
+                          ))}
+                        </optgroup>
+                      ))}
+                  </select>
+                  <IconButton
+                    variant="contained"
+                    color="primary"
+                    onClick={handleCreateParameter}
+                    style={{
+                      borderRadius: "50%", // Set the border radius to make it round
+                      padding: "8px", // Add some padding to the button
+                      width: "35px",
+                      height: "35px",
+                    }}
+                  >
+                    <AddIcon sx={{ fontSize: 25 }} />
+                  </IconButton>
+                </div>
+                <div>
+                  {parameters.map((parameter, index) => (
+                    <div
+                      key={index}
+                      style={{ display: "flex", marginBottom: "8px" }}
+                    >
+                      <TextField
+                        label="Parameter Name"
+                        variant="standard"
+                        value={parameter.name}
+                        onChange={(e) => {
+                          const updatedParameters = [...parameters];
+                          updatedParameters[index].name = e.target.value;
+                          setParameters(updatedParameters);
+                        }}
+                        inputProps={{ style: { fontSize: 9 } }}
+                        InputLabelProps={{ style: { fontSize: 9 } }}
+                        style={{ marginRight: "8px" }}
+                      />
+                      <select
+                        value={parameter.variableGroup}
+                        onChange={(e) => {
+                          const updatedParameters = [...parameters];
+                          updatedParameters[index].variableGroup =
+                            e.target.value;
+                          setParameters(updatedParameters);
+                        }}
+                      >
+                        <option value="">Select a Scope Tag</option>
+                        {selectedVariableGroups.map((group) => (
+                          <option key={group} value={group}>
+                            {group}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <h5>Arm Template</h5>

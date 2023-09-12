@@ -16,6 +16,7 @@ import './overview.css';
 
 import { CreateAndExportServicModel, CreateServiceResourceDefinitions } from "./ServiceModelExporter.ts";
 import { CreateAndExportRolloutSpec, CreateOrchestratedStep } from "./RolloutSpecExporter.ts";
+import { CreateAndExportScopeBindings, ImportScopeBindings } from "./ScopeBindingsExporter.ts";
 import VariableEditor from './VariablesEditor';
 
 const nodeTypes = {
@@ -25,7 +26,6 @@ const nodeTypes = {
 const minimapStyle = {
   height: 120,
 };
-
 
 const initialVariableGroups = [
   { name: 'Global', variables: [{ name: "ResourceGroupName", value: "TestResourceGroup" }] }
@@ -136,6 +136,30 @@ const OverviewFlow = () => {
     });
     CreateAndExportServicModel(name, serviceModelMetadata, serviceResourceDefinitions, []);
     CreateAndExportRolloutSpec(name, null, orchestratedSteps);
+
+    //Scope Bindings
+    const ScopeBindings = []
+    variableGroups.forEach((group) => {
+      const BindingList = [];
+      group.variables.forEach((variable) => {
+          const binding = {
+            find: variable.name,
+            replaceWith: variable.value,
+            fallback: {
+              to: ""
+            }
+          }
+          BindingList.push(binding);
+      })
+
+      const ScopeBinding = {
+        scopeTagName: group.name,
+        bindings: BindingList
+      }
+      ScopeBindings.push(ScopeBinding);
+    })
+
+    CreateAndExportScopeBindings(ScopeBindings);
 
 
     console.log(nodeProperties);

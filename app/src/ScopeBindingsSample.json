@@ -1,0 +1,1032 @@
+{
+    "$schema": "https://ev2schema.azure.net/schemas/2020-01-01/scopeBindings.json",
+    "contentVersion": "1.0.0.0",
+    "scopeBindings": [
+        {
+            "scopeTagName": "LocationTag",
+            "bindings": [
+                {
+                    "find": "__LOCATION__",
+                    "replaceWith": "$location()"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ResourceTag",
+            "bindings": [
+                {
+                    "find": "__RESOURCE_GROUP_NAME__",
+                    "replaceWith": "$rolloutInfra()$location()"
+                },
+                {
+                    "find": "__OWNER_GROUP_OBJECT_ID__",
+                    "replaceWith": "$config(serviceprincipalownerobjectid)", // The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. 
+                    "fallback": {
+                        "to": "c2dcd6f8-864a-4db4-925e-e78679a3f765"
+                    }
+                },
+                {
+                    "find": "__FIRST_PARTY_AAD_APP_ID__",
+                    "replaceWith": "$config(serviceprincipalaadappid)", // Azure Monitor First Party AAD app id 
+                    "fallback": {
+                        "to": "11c174dc-1945-4a9a-a36b-c79a0f246b9b"
+                    }
+                },
+                {
+                    "find": "__FIRST_PARTY_DRAFT_AAD_APP_ID__",
+                    "replaceWith": "$config(draftserviceprincipalaadappid)", // Draft First Party AAD app id ai-draft-prod-global
+                    "fallback": {
+                        "to": "8374d92b-88c9-4297-9b8f-a5767e6ae695"
+                    }
+                },
+                {
+                    "find": "__AZURE_SERVICE_BUILDOUT_ID__",
+                    "replaceWith": "$config(azureservicebuildoutOid)"
+                },
+                {
+                    "find": "__EV2_ROLLOUT_APP_ID__",
+                    "replaceWith": "$config(ev2.rolloutAppId)" // EV2 First Party AAD App Id
+                },
+                {
+                    "find": "__KEYVAULT_DNSSUFFIX__",
+                    "replaceWith": "$config(keyvault.dnsSuffix)"
+                },
+                {
+                    "find": "__REDIS_DNS_SUFFIX__",
+                    "replaceWith": "$config(redis.dnsSuffix)"
+                },
+                {
+                    "find": "__AVAILABILITY_ZONE_COUNT__",
+                    "replaceWith": "$config(availabilityZoneCount)"
+                },
+                {
+                    "find": "__COMMONINFRA_CD_OID__",
+                    "replaceWith": "$config(commoninfraDeployerOid)"
+                },
+                {
+                    "find": "__REPLICATION_ACR__",
+                    "replaceWith": "$config(replicationACR)"
+                },
+                {
+                    "find": "__MDM_QUERY_CERT_PATH__",
+                    "replaceWith": "$config(genevametrics.mdmquerycertpath)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ClusterTag",
+            "bindings": [
+                {
+                    "find": "__FUNC_DOMAIN__",
+                    "replaceWith": "$config(k8s.mozartEndpoint)"
+                },
+                {
+                    "find": "__CLUSTER_NAME__",
+                    "replaceWith": "$config(k8s.clusterName)",
+                    "fallback": {
+                        "to": "commoninfra-$config(k8s.environment)-$config(regionShortName)-0"
+                    }
+                }
+            ]
+        },
+        {
+            "scopeTagName": "TMTag",
+            "bindings": [
+                {
+                    "find": "__TRAFFIC_MANAGER_NAME__",
+                    "replaceWith": "MetricsRP-$config(runtimeenvironment)-TM-$location()"
+                },
+                {
+                    "find": "__END_POINT_NAME__",
+                    "replaceWith": "MetricsRP-$config(runtimeenvironment)-$location()-containerized"
+                },
+                {
+                    "find": "__TARGET_END_POINT__",
+                    "replaceWith": "commoninfra-prod-$config(regionShortName)-0-ingress-metricsrp.$config(network.publicIPAddress.dns)"
+                },
+                {
+                    "find": "__PAIRED_REGION_STAMP_COLOR__",
+                    "replaceWith": "red"
+                },
+                {
+                    "find": "__PAIRED_REGION_STAMP_NAME__",
+                    "replaceWith": "MetricsRP-$config(runtimeenvironment)-$config(pairedRegions[0])"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "AppDeploy-ResourceTag",
+            "bindings": [
+                {
+                    "find": "__IS_WORKLOAD_ID_ENABLED__",
+                    "replaceWith": "$config(k8s.isWorkloadIdentityEnabled)",
+                    "fallback": {
+                        "to": "true"
+                    }
+                },
+                {
+                    "find": "__WORKLOAD_IDENTITY_MSI_CLIENT_ID__",
+                    "replaceWith": "$serviceResourceDefinition(ManagedIdentity).action(Deploy).outputs(managedIdentityClientId.value)",
+                    "fallback": {
+                        "to": ""
+                    }
+                },
+                {
+                    "find": "__ASPNETCORE_ENVIRONMENT__",
+                    "replaceWith": "$config(k8s.stampName)",
+                    "fallback": {
+                        "to": "METRICSRP-$config(runtimeEnvironment)-$location()"
+                    }
+                },
+                {
+                    "find": "__BUILD_VER__",
+                    "replaceWith": "$buildVersion()"
+                },
+                {
+                    "find": "__BUILD_TYPE__",
+                    "replaceWith": "official"
+                },
+                {
+                    "find": "__COMMON_INFRA_ENV__",
+                    "replaceWith": "$config(k8s.environment)"
+                },
+                {
+                    "find": "__METRICSRP_HOST__",
+                    "replaceWith": "$config(cert.cnamerecordnamesuffix).$config(cert.cnamerecordzonename)"
+                },
+                {
+                    "find": "__DATAPLANE_HOST__",
+                    "replaceWith": "$config(dataplane.hostname)",
+                    "fallback": {
+                        "to": "metrics.monitor.$config(dns.azure)"
+                    }
+                },
+                {
+                    "find": "__DATAPLANE_SSL_CERT_NAME__",
+                    "replaceWith": "Dataplane$config(runtimeEnvironment)$location()SSLCertificate"
+                },
+                {
+                    "find": "__AI_IKEY__",
+                    "replaceWith": "$config(k8s.aiIKey)",
+                    "fallback": {
+                        "to": "a02148c7-1029-421b-8515-5bee9e804d56"
+                    }
+                },
+                {
+                    "find": "__AI_DCURL__",
+                    "replaceWith": "$config(k8s.aiDcUrl)",
+                    "fallback": {
+                        "to": "https://westcentralus-6.in.aimon.applicationinsights.azure.com/v2/track"
+                    }
+                },
+                {
+                    "find": "__KEY_VAULT_NAME__",
+                    "replaceWith": "$config(keyVault.name)",
+                    "fallback": {
+                        "to": "$rolloutInfra()$location()"
+                    }
+                },
+                {
+                    "find": "__COMMON_INFRA_RESOURCE_GROUP__",
+                    "replaceWith": "$config(k8s.clusterName)",
+                    "fallback": {
+                        "to": "commoninfra-$config(k8s.environment)-$config(regionShortName)-0"
+                    }
+                },
+                {
+                    "find": "__MONITORING_GCS_AUTH_ID__",
+                    "replaceWith": "$location().GENEVA.KEYVAULT.MDMRP.$config(cloudName).WINDOWS.AZURE.NET"
+                },
+                {
+                    "find": "__MONITORING_CONFIG_VERSION__",
+                    "replaceWith": "$config(genevaMonitoring.configVersion)",
+                    "fallback": {
+                        "to": "5.0"
+                    }
+                },
+                {
+                    "find": "__MONITORING_TENANT__",
+                    "replaceWith": "$location()"
+                },
+                {
+                    "find": "__MANAGED_IDENTITY_NAME__",
+                    "replaceWith": "metricsrpidentity-$config(runtimeEnvironment)"
+                },
+                {
+                    "find": "__MANAGED_IDENTITY_CLIENT_ID__",
+                    "replaceWith": "$config(msIdentity.clientId)"
+                },
+                {
+                    "find": "__NGINX_MAX_REPLICAS__",
+                    "replaceWith": "$config(k8s.nginxIngress.maxReplicas)",
+                    "fallback": {
+                        "to": "100"
+                    }
+                },
+                {
+                    "find": "__NGINX_MIN_REPLICAS__",
+                    "replaceWith": "$config(k8s.nginxIngress.minReplicas)",
+                    "fallback": {
+                        "to": "6"
+                    }
+                },
+                {
+                    "find": "__NGINX_CPU_UTILIZATION__",
+                    "replaceWith": "$config(k8s.nginxIngress.averageUtilization.cpu)",
+                    "fallback": {
+                        "to": "60"
+                    }
+                },
+                {
+                    "find": "__NGINX_MEMORY_UTILIZATION__",
+                    "replaceWith": "$config(k8s.nginxIngress.averageUtilization.memory)",
+                    "fallback": {
+                        "to": "60"
+                    }
+                },
+                // nginx-ingress-controller container resource spec
+                {
+                    "find": "__NGINX_REQUESTS_CPU__",
+                    "replaceWith": "$config(k8s.nginxIngress.requests.cpu)",
+                    "fallback": {
+                        "to": "2000m"
+                    }
+                },
+                {
+                    "find": "__NGINX_REQUESTS_MEMORY__",
+                    "replaceWith": "$config(k8s.nginxIngress.requests.memory)",
+                    "fallback": {
+                        "to": "4Gi"
+                    }
+                },
+                {
+                    "find": "__NGINX_LIMITS_CPU__",
+                    "replaceWith": "$config(k8s.nginxIngress.limits.cpu)",
+                    "fallback": {
+                        "to": "2000m"
+                    }
+                },
+                {
+                    "find": "__NGINX_LIMITS_MEMORY__",
+                    "replaceWith": "$config(k8s.nginxIngress.limits.memory)",
+                    "fallback": {
+                        "to": "4Gi"
+                    }
+                },
+                // metricsrp replicas limit HorizontalPodAutoscaler
+                {
+                    "find": "__METRICSRP_MAX_REPLICAS__",
+                    "replaceWith": "$config(k8s.metricsrp.maxReplicas)",
+                    "fallback": {
+                        "to": "100"
+                    }
+                },
+                {
+                    "find": "__METRICSRP_MIN_REPLICAS__",
+                    "replaceWith": "$config(k8s.metricsrp.minReplicas)",
+                    "fallback": {
+                        "to": "6"
+                    }
+                },
+                // nginx-ingress-controller container resource spec
+                {
+                    "find": "__METRICSRP_REQUESTS_CPU__",
+                    "replaceWith": "$config(k8s.metricsrp.requests.cpu)",
+                    "fallback": {
+                        "to": "4"
+                    }
+                },
+                {
+                    "find": "__METRICSRP_REQUESTS_MEMORY__",
+                    "replaceWith": "$config(k8s.metricsrp.requests.memory)",
+                    "fallback": {
+                        "to": "8Gi"
+                    }
+                },
+                {
+                    "find": "__METRICSRP_LIMITS_CPU__",
+                    "replaceWith": "$config(k8s.metricsrp.limits.cpu)",
+                    "fallback": {
+                        "to": "4"
+                    }
+                },
+                {
+                    "find": "__METRICSRP_LIMITS_MEMORY__",
+                    "replaceWith": "$config(k8s.metricsrp.limits.memory)",
+                    "fallback": {
+                        "to": "8Gi"
+                    }
+                },
+                {
+                    "find": "__METRICSRP_ACMS_DSMS_REGION__",
+                    "replaceWith": "$config(dcmtRegionId)"
+                },
+                {
+                    "find": "__METRICS_RP_IMAGE_ACR__",
+                    "replaceWith": "$config(metricsRpImageACR)"
+                },
+                {
+                    "find": "__AI_LOGS_NGINX_ACR__",
+                    "replaceWith": "$config(aiLogsNginxACR)"
+                },
+                {
+                    "find": "__INGRESS_NGINX_IMAGE_PATH__",
+                    "replaceWith": "$config(ingressNginxImagePath)"
+                },
+                {
+                    "find": "__DEFAULT_BACKEND_CUSTOM_ACR__",
+                    "replaceWith": "$config(defaultBackendCustomACR)"
+                },
+                {
+                    "find": "__CI_PROD_ACR__",
+                    "replaceWith": "$config(ciProdACR)"
+                },
+                {
+                    "find": "__GENEVA_MDM_IMAGE_PATH__",
+                    "replaceWith": "$config(genevaMdmImagePath)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "BootstrapCertificateTag",
+            "bindings": [
+                {
+                    "find": "__AKV_ENDPOINT__",
+                    "replaceWith": "$config(keyVault.domainNameSuffix)"
+                },
+                {
+                    "find": "__TENANT_ID__",
+                    "replaceWith": "$config(defaultTenant.id)",
+                    "fallback": {
+                        "to": "$config(aad.tenants.AME.id)"
+                    }
+                },
+                {
+                    "find": "__AUTHORITY__",
+                    "replaceWith": "https://$config(aad.endpoint)"
+                },
+                {
+                    "find": "__SCOPES__",
+                    "replaceWith": "https://$config(keyVault.domainNameSuffix)/.default"
+                },
+                {
+                    "find": "__CLIENT_HOME_STS_INSTANCE__",
+                    "replaceWith": "$config(dsts.endpoint)"
+                },
+                {
+                    "find": "__DSMS_FOLDER__",
+                    "replaceWith": "$config(dsms.dsmsFolder)",
+                    "fallback": {
+                        "to": "/azuremonitor-metrics-prod/services/metricsrp"
+                    }
+                }
+            ]
+        },
+        {
+            "scopeTagName": "BootstrapCertificate-Delete-Tag",
+            "bindings": [
+                {
+                    "find": "__IS_DELETE_OPERATION__",
+                    "replaceWith": "true"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CNameTag",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_NAME__",
+                    "replaceWith": "$location().$config(cert.cnamerecordnamesuffix)"
+                },
+                {
+                    "find": "__SAFE_DNS_HOME_STS__",
+                    "replaceWith": "https://prod-dsts.$config(dsts.realm)/v2/wstrust/13/certificate"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CNameTagTip",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_NAME__",
+                    "replaceWith": "$location().$config(cert.cnametiprecordnamesuffix)"
+                },
+                {
+                    "find": "__SAFE_DNS_HOME_STS__",
+                    "replaceWith": "https://prod-dsts.$config(dsts.realm)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CommonCNameTag",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_ZONE_NAME__",
+                    "replaceWith": "$config(cert.cnamerecordzonename)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CommonCNameValueTag",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_VALUE__",
+                    "replaceWith": "MetricsRP-$config(runtimeEnvironment)-TM-$location()$config(trafficmanager.dnsSuffix)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "SpecialStampCommonCNameValueTag",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_VALUE__",
+                    "replaceWith": "metricsrp-tm-tip$config(trafficmanager.dnsSuffix)."
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CommonCNameValueTagCreate",
+            "bindings": [
+                {
+                    "find": "__CNAME_RECORD_VALUE__",
+                    "replaceWith": "metricsrp-$config(trafficmanager.geoRegion)-tm$config(trafficmanager.dnsSuffix)."
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DataplaneCNameRecordTag",
+            "bindings": [
+                {
+                    "find": "__DNS_ZONE__",
+                    "replaceWith": "$config(cert.dataplaneCNAME)"
+                },
+                {
+                    "find": "__CNAME_VALUE__",
+                    "replaceWith": "MetricsRP-$config(runtimeEnvironment)-TM-$location()$config(trafficmanager.dnsSuffix)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "StorageTag",
+            "bindings": [
+                {
+                    "find": "__STORAGE_ACCOUNT_NAME__",
+                    "replaceWith": "$location()idmapping"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "MirroringStorageTag",
+            "bindings": [
+                {
+                    "find": "__STORAGE_ACCOUNT_NAME__",
+                    "replaceWith": "$location()idmapping2"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ARNAlertTag",
+            "bindings": [
+                {
+                    "find": "__EVENT_HUB_NAME__",
+                    "replaceWith": "metricsrparn-$location()"
+                },
+                {
+                    "find": "__ICM_ACTION_GROUP_RESOURCE_ID__",
+                    "replaceWith": "$config(arn.icmActionGroupId)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "MSIAndFIC",
+            "bindings": [
+                {
+                    "find": "__ENV__",
+                    "replaceWith": "prod"
+                },
+                {
+                    "find": "\"__CLUSTERS__\"",
+                    "replaceWith": "[$action(extension/RetrieveClustersInfo).outputsRaw(cluster)]"
+                },
+                {
+                    "find": "__MANAGED_IDENTITY_RESOURCE_ID__",
+                    "replaceWith": "$serviceResourceDefinition(ManagedIdentity).action(Deploy).outputs(managedIdentityResourceId.value)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DashboardTag",
+            "bindings": [
+                {
+                    "find": "__CLUSTER_NAME__",
+                    "replaceWith": "$config(k8s.clusterName)",
+                    "fallback": {
+                        "to": "commoninfra-$config(runtimeenvironment)-$config(regionShortName)-0"
+                    }
+                },
+                {
+                    "find": "__DASHBOARD_NAME__",
+                    "replaceWith": "METRICSRP-$config(runtimeenvironment)-$location()-Dashboard"
+                },
+                {
+                    "find": "__CLUSTER_RESOURCE_ID__",
+                    "replaceWith": "$config(k8s.clusterResourceId)"
+                },
+                {
+                    "find": "__ASPNETCORE_ENVIRONMENT__",
+                    "replaceWith": "METRICSRP-$config(runtimeenvironment)-$location()"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultTag",
+            "bindings": [
+                {
+                    "find": "__PAIRED_REGION_STORAGE_ACCOUNT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(StorageAccounts-Mirroring).action(Deploy).outputs(storageAccountName.value)"
+                },
+                {
+                    "find": "__PAIRED_REGION_STORAGE_ACCOUNT_RESOURCE_ID__",
+                    "replaceWith": "$serviceResourceDefinition(StorageAccounts-Mirroring).action(Deploy).outputs(storageAccountResourceId.value)"
+                },
+                {
+                    "find": "__MANAGED_IDENTITY_OBJECT_ID__",
+                    "replaceWith": "$serviceResourceDefinition(ManagedIdentity).action(Deploy).outputs(managedIdentityObjectId.value)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "GenevaLogsTag",
+            "bindings": [
+                {
+                    "find": "__GENEVA_LOGS_ENVIRONMENT__",
+                    "replaceWith": "$config(geneva.GCSEnvironment)"
+                },
+                {
+                    "find": "__GENEVA_LOGS_ACCOUNT_NAME__",
+                    "replaceWith": "$config(genevalogs.gcsaccountname)"
+                },
+                {
+                    "find": "__GENEVA_LOGS_NAMESPACE__",
+                    "replaceWith": "$config(genevalogs.gcsNamespace)",
+                    "fallback": {
+                        "to": "AzMonMetrics"
+                    }
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultDstsEV2AuthCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PrivateCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$config(bootstrapaadcert.keyvaultname)",
+                    "fallback": {
+                        "to": "metricsrp-ev2-$rolloutInfra()"
+                    }
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MetricsRp$config(runtimeEnvironment)EV2Certificate"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "ev2.metricsrp.$config(dns.azclient)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "ev2.metricsrp.$config(dns.azclient)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultGenevaClientEV2AuthCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PrivateCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$config(bootstrapaadcert.keyvaultname)",
+                    "fallback": {
+                        "to": "metricsrp-ev2-$rolloutInfra()"
+                    }
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MetricsRp$config(runtimeEnvironment)EV2GenevaCertificate"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "ev2.metricsrp.$config(dns.azclient)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "$config(runtimeEnvironment).geneva.keyvault.metricsrp.$config(dns.azclient)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "GenevaMetricsTag",
+            "bindings": [
+                {
+                    "find": "__SOURCE_GENEVA_METRICS_ACCOUNT_NAME__",
+                    "replaceWith": "$config(genevametrics.sourcemonitoringaccountname)"
+                },
+                {
+                    "find": "__TARGET_GENEVA_METRICS_ACCOUNT_NAME__",
+                    "replaceWith": "AME_MetricsRP-$config(runtimeEnvironment)-$location()"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "CertificateTag",
+            "bindings": [
+                {
+                    "find": "__EV2_KEYVAULT_NAME__",
+                    "replaceWith": "$config(bootstrapaadcert.keyvaultname)",
+                    "fallback": {
+                        "to": "metricsrp-ev2-$rolloutInfra()"
+                    }
+                },
+                {
+                    "find": "__AAD_CERT__",
+                    "replaceWith": "$config(bootstrapaadcert.certname)",
+                    "fallback": {
+                        "to": "MetricsRpEV2AADCertificate"
+                    }
+                },
+                {
+                    "find": "__CONTACTS__",
+                    "replaceWith": "green@microsoft.com"
+                },
+                {
+                    "find": "__FORCE_NEW_VER__",
+                    "replaceWith": "false"
+                },
+                {
+                    "find": "__ONECERT_NAME__",
+                    "replaceWith": "MetricsRp$config(runtimeEnvironment)EV2Certificate"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultDataplaneClientCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PrivateCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(KeyVaultAndSecrets).action(Deploy).outputs(keyVaultName.value)"
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MonitorDataPlaneAME"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "$config(cert.dataplaneCNAME)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "$config(cert.dataplaneCNAME)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultSSLCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PublicCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(KeyVaultAndSecrets).action(Deploy).outputs(keyVaultName.value)"
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MetricsRP$config(runtimeEnvironment)$location()SSLCertificate"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "$location().$config(cert.cnamerecordnamesuffix).$config(cert.cnamerecordzonename)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "*.$config(cert.cnamerecordnamesuffix).$config(cert.cnamerecordzonename)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DataplaneSSLCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PublicCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(KeyVaultAndSecrets).action(Deploy).outputs(keyVaultName.value)"
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "Dataplane$config(runtimeenvironment)$location()SSLCertificate"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "$location().$config(cert.dataplanecnamerecordnamesuffix).$config(cert.dataplanecnamerecordzonename)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "*.$config(cert.dataplanecnamerecordnamesuffix).$config(cert.dataplanecnamerecordzonename)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DataplaneTokenRedisCache",
+            "bindings": [
+                {
+                    "find": "__REDIS_NAME__",
+                    "replaceWith": "dataplane-tokencache-"
+                },
+                {
+                    "find": "__CAPACITY__",
+                    "replaceWith": "1"
+                },
+                {
+                    "find": "__MAX_MEM_RESERVED__",
+                    "replaceWith": "50"
+                },
+                {
+                    "find": "__MAX_FRAG_MEM_RESERVED__",
+                    "replaceWith": "50"
+                },
+                {
+                    "find": "__MAX_MEM_DELTA__",
+                    "replaceWith": "50"
+                },
+                {
+                    "find": "__PUBLIC_NETWORK_ACCESS__",
+                    "replaceWith": "Enabled"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DataplaneThrottleRedisCache",
+            "bindings": [
+                {
+                    "find": "__REDIS_NAME__",
+                    "replaceWith": "dataplane-throttle-"
+                },
+                {
+                    "find": "__CAPACITY__",
+                    "replaceWith": "2"
+                },
+                {
+                    "find": "__MAX_MEM_RESERVED__",
+                    "replaceWith": "96"
+                },
+                {
+                    "find": "__MAX_FRAG_MEM_RESERVED__",
+                    "replaceWith": "144"
+                },
+                {
+                    "find": "__MAX_MEM_DELTA__",
+                    "replaceWith": "96"
+                },
+                {
+                    "find": "__PUBLIC_NETWORK_ACCESS__",
+                    "replaceWith": "Enabled"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DataplaneCheckAccessRedisCache",
+            "bindings": [
+                {
+                    "find": "__REDIS_NAME__",
+                    "replaceWith": "dataplane-checkaccess-"
+                },
+                {
+                    "find": "__CAPACITY__",
+                    "replaceWith": "1"
+                },
+                {
+                    "find": "__MAX_MEM_RESERVED__",
+                    "replaceWith": "200"
+                },
+                {
+                    "find": "__MAX_FRAG_MEM_RESERVED__",
+                    "replaceWith": "300"
+                },
+                {
+                    "find": "__MAX_MEM_DELTA__",
+                    "replaceWith": "200"
+                },
+                {
+                    "find": "__PUBLIC_NETWORK_ACCESS__",
+                    "replaceWith": "Enabled"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultGenevaClientCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PrivateCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(KeyVaultAndSecrets).action(Deploy).outputs(keyVaultName.value)"
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MetricsRPClientCertK8s"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "$location().k8s.$config(cert.cnamerecordnamesuffix).$config(cert.cnamerecordzonename)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "$location().geneva.keyvault.$config(cert.cnamerecordnamesuffix).$config(cert.cnamerecordzonename)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "KeyVaultDSMSClientAuthCertificateTag",
+            "bindings": [
+                {
+                    "find": "__KEYVAULT_ISSUER__",
+                    "replaceWith": "OneCertV2-PrivateCA"
+                },
+                {
+                    "find": "__KEYVAULT_NAME__",
+                    "replaceWith": "$serviceResourceDefinition(KeyVaultAndSecrets).action(Deploy).outputs(keyVaultName.value)"
+                },
+                {
+                    "find": "__KEYVAULT_CERT_NAME__",
+                    "replaceWith": "MetricsRpDsmsClientAuthCert"
+                },
+                {
+                    "find": "__SUBJECT_NAME__",
+                    "replaceWith": "$config(dcmtRegionId)-bootstrap.metricsrp.$config(dns.azclient)"
+                },
+                {
+                    "find": "__DNS_NAMES__",
+                    "replaceWith": "$config(dcmtRegionId)-bootstrap.metricsrp.$config(dns.azclient)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "DSMSTag",
+            "bindings": [
+                {
+                    "find": "__SSL_DSMS_CERT_NAME__",
+                    "replaceWith": "MetricsRP$config(runtimeEnvironment)$location()SSLCertificate"
+                },
+                {
+                    "find": "__ARM_CLIENT_DSMS_CERT_NAME__",
+                    "replaceWith": "MetricsRP$config(runtimeEnvironment)$location()ArmClientCertificate"
+                },
+                {
+                    "find": "__DSMS_ROOTFOLDER__",
+                    "replaceWith": "AzureMonitor-Metrics-Prod"
+                },
+                {
+                    "find": "__DSMS__END_POINT__",
+                    "replaceWith": "$config(dsms.endpoint)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ArmClientCertificateTag",
+            "bindings": [
+                {
+                    "find": "__CA_NAME__",
+                    "replaceWith": "AME"
+                },
+                {
+                    "find": "__SUBJECT__",
+                    "replaceWith": "$config(armclient.callercertsubjectname)"
+                },
+                {
+                    "find": "__SAN__",
+                    "replaceWith": "$config(armclient.callercertsubjectname)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ArmClientDSMSTag",
+            "bindings": [
+                {
+                    "find": "__DSMS_CERT_NAME__",
+                    "replaceWith": "MetricsRP$config(runtimeEnvironment)$location()ArmClientCertificate"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "ActionGroupTag",
+            "bindings": [
+                {
+                    "find": "__Action_Group_Name__",
+                    "replaceWith": "metricsrp$location()_ICM"
+                },
+                {
+                    "find": "__Action_Group_Shortname__",
+                    "replaceWith": "metricsrp$config(regionShortName)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "TMAlertTag",
+            "bindings": [
+                {
+                    "find": "__TRAFFIC_MANAGER_NAME__",
+                    "replaceWith": "MetricsRP-$config(runtimeEnvironment)-TM-$location()"
+                },
+                {
+                    "find": "__END_POINT_NAME__",
+                    "replaceWith": "MetricsRP-$config(runtimeEnvironment)-$location()-containerized"
+                },
+                {
+                    "find": "__TARGET_END_POINT__",
+                    "replaceWith": "commoninfra-prod-$config(regionShortName)-0-ingress-metricsrp.$config(network.publicIPAddress.dns)"
+                },
+                {
+                    "find": "__METRICSRP_TM_ICM_NAME__",
+                    "replaceWith": "metricsrp$location()_ICM"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "TMAlertTagSev2",
+            "bindings": [
+                {
+                    "find": "__ALERT_NAME__",
+                    "replaceWith": "Metrics RP Traffic Manager Endpoint Degraded $location() Sev 2"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "TMAlertTagSev3",
+            "bindings": [
+                {
+                    "find": "__ALERT_NAME__",
+                    "replaceWith": "Metrics RP Traffic Manager Endpoint Degraded $location() Sev 3"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "SubscriptionRoleAssignments",
+            "bindings": [
+                {
+                    "find": "__SubscriptionProvisioningReaderGroupObjectId__",
+                    "replaceWith": "$config(geneva.environmentCommon.ownerGroupObjectId)"
+                },
+                {
+                    "find": "__SubscriptionProvisioningEv2BuildoutServicePrincipalId__",
+                    "replaceWith": "$config(geneva.deploymentTenant.ev2BuildoutServicePrincipalId)"
+                },
+                {
+                    "find": "__SubscriptionProvisioningBgSecurityGroupObjectlId__",
+                    "replaceWith": "$config(geneva.environmentCommon.BgGenevaPipelineObjectId)"
+                }
+            ]
+        },
+        {
+            "scopeTagName": "SubscriptionProvisioning",
+            "bindings": [
+                {
+                    "find": "__SubscriptionProvisioningOwnerGroupObjectId__",
+                    "replaceWith": "$config(geneva.environmentCommon.ObsSreSecurityGroupObjectId)"
+                },
+                {
+                    "find": "__SubscriptionDisplayName__",
+                    "replaceWith": "$config(geneva.service.subscriptionProvisioning.displayName)"
+                },
+                {
+                    "find": "__BillingScope__",
+                    "replaceWith": "$config(geneva.service.subscriptionProvisioning.billing.scope)"
+                },
+                {
+                    "find": "__BillingPcCode__",
+                    "replaceWith": "$config(geneva.service.subscriptionProvisioning.billing.pcCode)"
+                },
+                {
+                    "find": "__BillingCostCategory__",
+                    "replaceWith": "$config(geneva.service.subscriptionProvisioning.billing.costCategory)"
+                }
+            ]
+        }
+    ]
+}

@@ -119,18 +119,32 @@ const VariableEditor = ({ groups, setGroups }) => {
           variant="standard"
           onChange={(e) => setNewGroupName(e.target.value)}
         />
-        <Button
+        <IconButton
           variant="contained"
           color="primary"
-          startIcon={<AddIcon />}
           onClick={handleCreateGroup}
-        ></Button>
-        <Button
+          style={{
+            borderRadius: "50%", // Set the border radius to make it round
+            padding: "8px", // Add some padding to the button
+            width: "35px",
+            height: "35px",
+          }}
+        >
+          <AddIcon sx={{ fontSize: 25 }} />
+        </IconButton>
+        <IconButton
           variant="contained"
           color="error"
-          startIcon={<DeleteIcon />}
           onClick={handleDeleteGroup}
-        ></Button>
+          style={{
+            borderRadius: "50%", // Set the border radius to make it round
+            padding: "8px", // Add some padding to the button
+            width: "35px",
+            height: "35px",
+          }}
+        >
+          <DeleteIcon sx={{ fontSize: 25 }} />
+        </IconButton>
       </Box>
 
       {selectedGroup && (
@@ -152,12 +166,19 @@ const VariableEditor = ({ groups, setGroups }) => {
                 onChange={(e) => setVariableValue(e.target.value)}
                 style={{ marginRight: "10px" }}
               />
-              <Button
+              <IconButton
                 variant="contained"
                 color="primary"
-                startIcon={<AddIcon />}
                 onClick={handleVariableAdd}
-              />
+                style={{
+                  borderRadius: "50%", // Set the border radius to make it round
+                  padding: "8px", // Add some padding to the button
+                  width: "35px",
+                  height: "35px",
+                }}
+              >
+                <AddIcon sx={{ fontSize: 25 }} />
+              </IconButton>
             </div>
             <List>
               {groups
