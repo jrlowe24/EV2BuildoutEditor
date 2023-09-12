@@ -116,10 +116,12 @@ const OverviewFlow = () => {
 
         // we probably want to move this processing code elsewhere
         //service model
-        const serviceResourceName = nodeProperties[node.id].targetName;
-        const rolloutParameterPath = "Parameters\\Keyvault.arm.template.json"; // need to parameterize these
-        const templatePath = "Templates\\Keyvault.arm.template.json";
-        const scopeTags = nodeProperties[node.id].scopeTags;
+        const currNodeProperties = nodeProperties[node.id]
+
+        const serviceResourceName = currNodeProperties.targetName;
+        const rolloutParameterPath = `Parameters\\${currNodeProperties.templateName}.parameters.json`; // need to parameterize these
+        const templatePath = `Templates\\${currNodeProperties.templateName}.arm.template.json`;
+        const scopeTags = currNodeProperties.scopeTags;
         const serviceResourceDefinition = CreateServiceResourceDefinitions(serviceResourceName, rolloutParameterPath, templatePath, scopeTags)
         serviceResourceDefinitions.push(serviceResourceDefinition);
 
@@ -134,7 +136,7 @@ const OverviewFlow = () => {
           }
         });
 
-        const orchestratedStep = CreateOrchestratedStep(nodeProperties[node.id].stepName, "ServiceResourceDefinition", nodeProperties[node.id].targetName, "deploy", dependencies)
+        const orchestratedStep = CreateOrchestratedStep(currNodeProperties.stepName, "ServiceResourceDefinition", currNodeProperties.targetName, "deploy", dependencies)
         orchestratedSteps.push(orchestratedStep);
       }
     });

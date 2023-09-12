@@ -21,6 +21,7 @@ function ResourceNode({ id, x, y, data }) {
   const [resourceType, setResourceType] = useState(data.resourcetype);
   const [resourceName, setResourceName] = useState("resourceName");
   const [template, setTemplate] = useState(null);
+  const [templateName, setTemplateName] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const [selectedVariableGroups, setSelectedVariableGroups] = useState([]); // scope tags that have been added to this resource step
@@ -65,12 +66,11 @@ function ResourceNode({ id, x, y, data }) {
   };
 
   const handleCreateParameter = () => {
-
     const newParameter = {
       name: newParameterName,
       value: selectedVariable,
     };
-    console.log(newParameter)
+    console.log(newParameter);
     setParameters([...parameters, newParameter]);
     setNewParameterName("");
     setSelectedVariable("");
@@ -93,8 +93,9 @@ function ResourceNode({ id, x, y, data }) {
       stepName: orchestratedStepName,
       targetName: targetName,
       template: template,
+      templateName: templateName,
       scopeTags: selectedVariableGroups,
-      parameters: parameters
+      parameters: parameters,
     };
     currProperties[id] = newProperties;
 
@@ -252,8 +253,8 @@ function ResourceNode({ id, x, y, data }) {
                   </ul>
                 </div>
 
-                  <strong>Parameter List</strong>
-                  <div
+                <strong>Parameter List</strong>
+                <div
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -277,7 +278,7 @@ function ResourceNode({ id, x, y, data }) {
                       }}
                       style={{ width: "200px" }}
                     >
-                    <option value="">Select a Variable</option>
+                      <option value="">Select a Variable</option>
                       {data.variableGroups
                         .filter((group) =>
                           selectedVariableGroups.includes(group.name)
@@ -309,30 +310,41 @@ function ResourceNode({ id, x, y, data }) {
                 </div>
                 <div style={{ marginTop: "20px" }}>
                   {parameters.map((parameter, index) => (
-                      <div
+                    <div
                       style={{
                         display: "flex",
                         flexDirection: "column",
                       }}
                     >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>{parameter.name}</span>
-                      <span>{parameter.value}</span>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <span>{parameter.name}</span>
+                        <span>{parameter.value}</span>
+                      </div>
+                      <hr style={{ width: "100%" }}></hr>
                     </div>
-                    <hr style={{width: "100%"}}></hr>
-                    </div>
-                    
                   ))}
                 </div>
               </div>
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <h5>Arm Template</h5>
+                <TextField
+                  id="standard-basic"
+                  label="Template Name"
+                  variant="standard"
+                  onChange={(e) => {
+                    setTemplateName(e.target.value);
+                    updateProperties();
+                  }}
+                  inputProps={{ style: { fontSize: 12 } }} // font size of input text
+                  InputLabelProps={{ style: { fontSize: 12 } }} // font size of input label
+                  style={{ marginBottom: "8px", width: "70%" }}
+                />
                 <JSONInput placeholder={template} onChange={updateTemplate} />
               </div>
             </div>
