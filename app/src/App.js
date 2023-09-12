@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import Modal from 'react-modal';
+//import Modal from 'react-modal';
 import ReactFlow, {
   addEdge,
   MiniMap,
@@ -18,6 +18,7 @@ import { CreateAndExportServicModel, CreateServiceResourceDefinitions } from "./
 import { CreateAndExportRolloutSpec, CreateOrchestratedStep } from "./RolloutSpecExporter.ts";
 import { CreateAndExportScopeBindings, ImportScopeBindings } from "./ScopeBindingsExporter.ts";
 import VariableEditor from './VariablesEditor';
+import Modal from "@mui/material/Modal";
 
 const nodeTypes = {
   custom: ResourceNode,
@@ -29,8 +30,9 @@ const minimapStyle = {
 
 
 const initialVariableGroups = [
-  { name: 'GlobalTags', variables: [{ name: "__RESOURCE_GROUP_NAME__", value: "TestResourceGroup" }, { name: "__LOCATION__", value: "$(location)" }] },
+  { name: 'GlobalTags', variables: [{ name: "__RESOURCE_GROUP_NAME__", value: "TestResourceGroup" }, { name: "__LOCATION__", value: "$location()" }] },
   { name: 'KeyVaultTags', variables: [{ name: "__KEYVAULT_NAME__", value: "$config(kv.name)" }, { name: "__FIRST_PARTY_APP_ID_", value: "$config(ownergroupappid)" }] },
+  { name: 'StorageAccountTags', variables: [{ name: "__STORAGE_ACCOUNT_NAME__", value: "$location()idmapping" }] }
 ];
 
 const initialEdges = []
@@ -144,14 +146,14 @@ const OverviewFlow = () => {
     variableGroups.forEach((group) => {
       const BindingList = [];
       group.variables.forEach((variable) => {
-          const binding = {
-            find: variable.name,
-            replaceWith: variable.value,
-            fallback: {
-              to: ""
-            }
+        const binding = {
+          find: variable.name,
+          replaceWith: variable.value,
+          fallback: {
+            to: ""
           }
-          BindingList.push(binding);
+        }
+        BindingList.push(binding);
       })
 
       const ScopeBinding = {
@@ -195,39 +197,60 @@ const OverviewFlow = () => {
         </select>
         <button onClick={() => setIsRolloutSpecModalOpen(true)}>Create RolloutSpec</button>
         <Modal
-          isOpen={isRolloutSpecModalOpen}
-          onRequestClose={() => setIsRolloutSpecModalOpen(false)}
-          contentLabel="Create RolloutSpec Modal"
-          style={{
-            content: {
-              width: '50%',
-              height: '30%',
-              margin: 'auto',
-            },
-          }}
+          open={isRolloutSpecModalOpen}
+          onClose={() => setIsRolloutSpecModalOpen(false)}
+          aria-labelledby="settings-modal-title"
+          aria-describedby="settings-modal-description"
         >
-          <h2>Create RolloutSpec</h2>
-          <input
-            type="text"
-            value={currentRolloutSpec}
-            onChange={(e) => setCurrentRolloutSpec(e.target.value)}
-            placeholder="Enter RolloutSpec name"
-          />
-          <button onClick={handleConfirmRolloutSpec}>Confirm</button>
-          <button onClick={() => setIsRolloutSpecModalOpen(false)}>Cancel</button>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "auto", // Set the desired width
+              backgroundColor: "white",
+              padding: "25px",
+              borderRadius: "12px",
+            }}>
+            <h2>Create RolloutSpec</h2>
+            <input
+              type="text"
+              value={currentRolloutSpec}
+              onChange={(e) => setCurrentRolloutSpec(e.target.value)}
+              placeholder="Enter RolloutSpec name"
+            />
+            <button onClick={handleConfirmRolloutSpec}>Confirm</button>
+            <button onClick={() => setIsRolloutSpecModalOpen(false)}>Cancel</button>
+          </div>
         </Modal>
         <button onClick={ExportToEV2Scripts}>Export</button>
         <button onClick={() => setIsVariableEditorVisible(!isVariableEditorVisible)}>
-        Toggle Variable Editor
+          Toggle Variable Editor
         </button>
-        {isVariableEditorVisible && (
-        <div class="overlay">
-          <div class="overlay-content">
-          <VariableEditor groups={variableGroups} setGroups={setVariableGroups} />
+
+        <Modal
+          open={isVariableEditorVisible}
+          onClose={() => setIsVariableEditorVisible(false)}
+          aria-labelledby="settings-modal-title"
+          aria-describedby="settings-modal-description"
+
+        >
+          <div style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "50%", // Set the desired width
+            backgroundColor: "white",
+            padding: "25px",
+            borderRadius: "12px",
+          }}>
+             
+            <VariableEditor groups={variableGroups} setGroups={setVariableGroups} />
           </div>
-        </div>
-        )}
-        
+        </Modal>
+
       </div>
       <ReactFlow
         nodes={nodes.filter((node) => node.data.rolloutSpec === currentRolloutSpec)}

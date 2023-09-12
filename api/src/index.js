@@ -6,6 +6,7 @@ const cors = require("cors"); // Import the cors package
 const cheerio = require('cheerio');
 const PORT = process.env.PORT || 3001;
 const app = express();
+const fs = require('fs');
 
 app.use(cors()); // Use the cors middleware
 
@@ -17,6 +18,14 @@ app.get("/api", (req, res) => {
 app.get("/", (req, res) => {
     res.json({ message: "Home" });
 });
+
+app.get("/json", (req, res) => {
+  fs.readFile('./ScopeBindingsSample.json', 'utf8', (err, data) => {
+    const jsonData = JSON.parse(data);
+    res.json(jsonData);
+  })
+
+})
 
 app.get("/api/armtemplate", async (req, res) => {
     const resource = req.query.resource;
