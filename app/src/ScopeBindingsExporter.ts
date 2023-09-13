@@ -18,6 +18,8 @@ function CreateAndExportScopeBindings(scopeBindings: ScopeBinding[]) {
   console.log(
     `ScopeBindings has been exported to ${outputPath}. File: \n ${scopeBindingsJson}`
   );
+
+  return scopeBindingsJson;
 }
 
 function CreateScopeBinding(name: string, bindings: Binding[]) {

@@ -33,6 +33,8 @@ function CreateAndExportRolloutSpec(name: string, metadata: RolloutMetadata, ste
     const rolloutSpecJson = JSON.stringify(newRolloutSpec, null, 2);
     const outputPath = `./Output/RolloutSpec.${name}.json`;
     console.log(`RolloutSpec has been exported to ${outputPath}. File: \n ${rolloutSpecJson}`);
+
+    return rolloutSpecJson;
 }
 
 function CreateOrchestratedStep(name: string, targetType: string, targetName: string, actions: string[], dependsOn: string[])

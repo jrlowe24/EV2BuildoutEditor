@@ -19,6 +19,7 @@ import { CreateAndExportRolloutSpec, CreateOrchestratedStep } from "./RolloutSpe
 import { CreateAndExportScopeBindings, ImportScopeBindings } from "./ScopeBindingsExporter.ts";
 import VariableEditor from './VariablesEditor';
 import Modal from "@mui/material/Modal";
+import JSZip from 'jszip';
 
 const nodeTypes = {
   custom: ResourceNode,
@@ -105,7 +106,18 @@ const OverviewFlow = () => {
     };
   };
 
-  const ExportToEV2Scripts = () => {
+  const ExportToEV2Scripts = async () => {
+
+      // Create folder
+      const zip = new JSZip();
+  
+      // Define your folder structure
+      const folder = zip.folder('ServiceGroupRoot');
+
+    var rolloutSpecJson = "";
+    var serviceModelJson = "";
+    var scopeBindingsJson= "";
+
     const name = currentRolloutSpec;
     const serviceModelMetadata = TestServiceMetadata;
     const serviceResourceDefinitions = [];
@@ -125,6 +137,23 @@ const OverviewFlow = () => {
         const serviceResourceDefinition = CreateServiceResourceDefinitions(serviceResourceName, rolloutParameterPath, templatePath, scopeTags)
         serviceResourceDefinitions.push(serviceResourceDefinition);
 
+
+        const parametersList = {};
+        currNodeProperties.parameters.forEach((parameter) => {
+          parametersList[parameter.name] = {
+            value: parameter.value
+          }
+        })
+        const parameterJson = {
+          $schema: "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+          contentVersion: "1.0.0.0",
+          parameters: parametersList
+        }
+        const parameterJsonString = JSON.stringify(parameterJson, null, 2);
+        
+        folder.file(`Parameters/${currNodeProperties.templateName}.parameters.json`, parameterJsonString);
+        folder.file(`Templates/.${currNodeProperties.templateName}.arm.template.json`, null);
+
         //rollout spec
         const dependencies = [];
         edges.forEach((edge) => {
@@ -140,8 +169,8 @@ const OverviewFlow = () => {
         orchestratedSteps.push(orchestratedStep);
       }
     });
-    CreateAndExportServicModel(name, serviceModelMetadata, serviceResourceDefinitions, []);
-    CreateAndExportRolloutSpec(name, null, orchestratedSteps);
+    serviceModelJson =  CreateAndExportServicModel(name, serviceModelMetadata, serviceResourceDefinitions, []);
+    rolloutSpecJson = CreateAndExportRolloutSpec(name, null, orchestratedSteps);
 
     //Scope Bindings
     const ScopeBindings = []
@@ -165,8 +194,25 @@ const OverviewFlow = () => {
       ScopeBindings.push(ScopeBinding);
     })
 
-    CreateAndExportScopeBindings(ScopeBindings);
+    scopeBindingsJson = CreateAndExportScopeBindings(ScopeBindings);
 
+    folder.file('ScopeBindings.json', scopeBindingsJson);
+    folder.file(`RolloutSpec.${name}.json`, rolloutSpecJson);
+    folder.file(`ServiceModel.${name}.json`, serviceModelJson);
+
+    const zipBlob = await zip.generateAsync({ type: 'blob' });
+
+    // Create a temporary link element and trigger the download
+    const url = window.URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ServiceGroupRoot.zip';
+    document.body.appendChild(a);
+    a.click();
+
+    // Cleanup
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
 
     console.log(nodeProperties);
   };

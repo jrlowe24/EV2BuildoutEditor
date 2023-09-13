@@ -47,6 +47,7 @@ function CreateAndExportServicModel(name: string, serviceMetadata: ServiceMetada
     const outputPath = `./Output/ServiceModel.${name}.json`;
     //fs.writeFileSync(outputPath, serviceModelJson);
     console.log(`ServiceModel has been exported to ${outputPath}. File: \n ${serviceModelJson}`);
+    return serviceModelJson;
 }
 
 function CreateServiceResourceDefinitions(serviceResourceName: string, rolloutParameterPath: string, templatePath: string, scopeTags: string[])
