@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spadeway — Shovels, Spades &amp; Scoops</title>
+<meta name="description" content="Spadeway is a design mockup for a dropshipping storefront selling garden spades, snow shovels and trade scoops.">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%A5%84%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="announce">
+  <div class="wrap">
+    <span>Free shipping over $75</span>
+    <span class="dot" aria-hidden="true">•</span>
+    <span>Ships direct from our partner workshops — 7 to 21 days</span>
+    <span class="dot" aria-hidden="true">•</span>
+    <span>60-day returns</span>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#a94e28" stroke-width="1.6" aria-hidden="true">
+        <path d="M12 2v11" stroke-linecap="round"/>
+        <path d="M9 2h6" stroke-linecap="round"/>
+        <path d="M8 13h8l-1.4 6.2a2.7 2.7 0 0 1-2.6 2.1h0a2.7 2.7 0 0 1-2.6-2.1L8 13Z" stroke-linejoin="round"/>
+      </svg>
+      <span>Spade<em>way</em></span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#shop">Shop all</a>
+      <a href="#shop" data-jump="garden">Garden</a>
+      <a href="#shop" data-jump="snow">Snow</a>
+      <a href="#journal">Journal</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="cart-button" type="button" aria-haspopup="dialog" aria-controls="cart-drawer">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M4 6h16l-1.4 11.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8L4 6Z" stroke-linejoin="round"/>
+          <path d="M9 9V5.5a3 3 0 0 1 6 0V9" stroke-linecap="round"/>
+        </svg>
+        Cart <span class="cart-count" id="cart-count" data-empty="true">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Since 2019 · 12,400 orders shipped</p>
+        <h1>Somebody has to move the dirt.</h1>
+        <p class="lede">Sixteen shovels, spades and scoops — sourced from small workshops,
+          shipped straight to your door. No warehouse markup, no garden-centre queue.</p>
+        <div class="hero-cta">
+          <a class="btn btn--clay" href="#shop">Shop the range</a>
+          <a class="btn btn--ghost" href="#journal">How we pick them</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>16</strong><span>tools in stock</span></div>
+          <div><strong>4.7</strong><span>average rating</span></div>
+          <div><strong>60d</strong><span>no-quibble returns</span></div>
+        </div>
+      </div>
+      <div class="hero-media">
+        <img src="images/hero-garden.jpg" alt="A stainless garden spade standing upright in soil beside an apple tree" width="1500" height="1154" fetchpriority="high" decoding="async">
+        <div class="hero-tag">
+          <strong>The Border Spade</strong>
+          <span>Best seller · $68, was $94</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="trust">
+    <div class="wrap">
+      <div class="trust-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 7h11v10H3z"/><path d="M14 10h4l3 3v4h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17.5" cy="18" r="1.8"/></svg>
+        <div><strong>Free shipping over $75</strong><span>Flat $6 below that</span></div>
+      </div>
+      <div class="trust-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6l7-3Z" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><strong>Two-year guarantee</strong><span>Handles and heads, both covered</span></div>
+      </div>
+      <div class="trust-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 4v16h16"/><path d="m7 15 4-5 3 3 5-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><strong>Priced direct</strong><span>We skip the middle shelf</span></div>
+      </div>
+      <div class="trust-item">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round"/></svg>
+        <div><strong>Real humans, 7 days</strong><span>Replies inside a working day</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="shop" id="shop">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The range</p>
+          <h2>Every shovel we&rsquo;d actually use</h2>
+          <p>Filter by what you&rsquo;re digging through. Delivery windows are honest ones —
+            these come from the workshops that make them, not a warehouse down the road.</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <div class="chips" role="group" aria-label="Filter by category">
+          <button class="chip" type="button" data-cat="all" aria-pressed="true">All</button>
+          <button class="chip" type="button" data-cat="garden" aria-pressed="false">Garden &amp; Beds</button>
+          <button class="chip" type="button" data-cat="snow" aria-pressed="false">Snow &amp; Ice</button>
+          <button class="chip" type="button" data-cat="trade" aria-pressed="false">Trade &amp; Heritage</button>
+        </div>
+        <div class="filters-right">
+          <span class="result-count" id="result-count" role="status">16 products</span>
+          <label class="visually-hidden" for="sort">Sort products</label>
+          <select id="sort">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="rating">Top rated</option>
+          </select>
+        </div>
+      </div>
+
+      <ul class="grid" id="product-grid">
+        <li class="card" data-id="border-spade" data-cat="garden" data-price="68" data-rating="4.8">
+          <div class="card-media">
+          <span class="badge badge--clay">Best seller</span>
+            <span class="save-tag">−28%</span>
+            <img src="images/border-spade.jpg" alt="Border Spade No. 4" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Border Spade No. 4</h3>
+            <p class="blurb">Narrow stainless head for tight beds and established borders.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.8 (412 reviews)</span></p>
+            <p class="price-row"><span class="price">$68</span> <span class="was">$94</span></p>
+            <p class="meta-row"><span>Ships in 7–12 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="border-spade">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="kitchen-garden-spade" data-cat="garden" data-price="74" data-rating="4.7">
+          <div class="card-media">
+            <span class="save-tag">−25%</span>
+            <img src="images/kitchen-garden-spade.jpg" alt="Kitchen Garden Spade" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Kitchen Garden Spade</h3>
+            <p class="blurb">Long ash shaft, dished blade. Built for raised beds and compost work.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.7 (188 reviews)</span></p>
+            <p class="price-row"><span class="price">$74</span> <span class="was">$99</span></p>
+            <p class="meta-row"><span>Ships in 9–16 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="kitchen-garden-spade">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="round-point-digger" data-cat="garden" data-price="52" data-rating="4.6">
+          <div class="card-media">
+            <span class="save-tag">−27%</span>
+            <img src="images/round-point-digger.jpg" alt="Round-Point Digger" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Round-Point Digger</h3>
+            <p class="blurb">Classic pointed head for breaking hard, dry ground.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.6 (934 reviews)</span></p>
+            <p class="price-row"><span class="price">$52</span> <span class="was">$71</span></p>
+            <p class="meta-row"><span>Ships in 7–14 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="round-point-digger">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="allotment-spade" data-cat="garden" data-price="61" data-rating="4.5">
+          <div class="card-media">
+            <span class="save-tag">−27%</span>
+            <img src="images/allotment-spade.jpg" alt="Allotment Treading Spade" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Allotment Treading Spade</h3>
+            <p class="blurb">Wide tread and Y-grip for all-day digging on heavy clay.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.5 (276 reviews)</span></p>
+            <p class="price-row"><span class="price">$61</span> <span class="was">$84</span></p>
+            <p class="meta-row"><span>Ships in 10–18 days</span> <span class="low">Only 4 left</span></p>
+            <button class="btn btn--ghost" type="button" data-add="allotment-spade">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="post-hole-auger" data-cat="garden" data-price="89" data-rating="4.4">
+          <div class="card-media">
+            <span class="save-tag">−29%</span>
+            <img src="images/earth-auger.jpg" alt="Post-Hole Auger" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Post-Hole Auger</h3>
+            <p class="blurb">Hand-turned screw bit. Clean 6-inch holes without a machine.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★☆</span>
+              <span>4.4 (97 reviews)</span></p>
+            <p class="price-row"><span class="price">$89</span> <span class="was">$126</span></p>
+            <p class="meta-row"><span>Ships in 12–21 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="post-hole-auger">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="trowel-trio" data-cat="garden" data-price="24" data-rating="4.6">
+          <div class="card-media">
+          <span class="badge">Bundle</span>
+            <span class="save-tag">−38%</span>
+            <img src="images/hand-trowel-trio.jpg" alt="Trowel Trio Set" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Trowel Trio Set</h3>
+            <p class="blurb">Trowel, transplanter and cultivator with soft-grip handles.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.6 (1502 reviews)</span></p>
+            <p class="price-row"><span class="price">$24</span> <span class="was">$39</span></p>
+            <p class="meta-row"><span>Ships in 7–12 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="trowel-trio">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="transplant-trowel" data-cat="garden" data-price="16" data-rating="4.3">
+          <div class="card-media">
+            <span class="save-tag">−36%</span>
+            <img src="images/transplant-trowel.jpg" alt="Transplanting Trowel" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Transplanting Trowel</h3>
+            <p class="blurb">Depth-marked blade for seedlings, bulbs and plug plants.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★☆</span>
+              <span>4.3 (641 reviews)</span></p>
+            <p class="price-row"><span class="price">$16</span> <span class="was">$25</span></p>
+            <p class="meta-row"><span>Ships in 9–16 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="transplant-trowel">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="potting-scoop" data-cat="garden" data-price="19" data-rating="4.7">
+          <div class="card-media">
+            <span class="save-tag">−32%</span>
+            <img src="images/potting-scoop.jpg" alt="Potting Bench Scoop" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Potting Bench Scoop</h3>
+            <p class="blurb">Deep-sided scoop that moves compost without spilling half of it.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.7 (355 reviews)</span></p>
+            <p class="price-row"><span class="price">$19</span> <span class="was">$28</span></p>
+            <p class="meta-row"><span>Ships in 7–14 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="potting-scoop">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="snow-pusher" data-cat="snow" data-price="57" data-rating="4.8">
+          <div class="card-media">
+          <span class="badge badge--clay">Best seller</span>
+            <span class="save-tag">−27%</span>
+            <img src="images/snow-pusher.jpg" alt="Nordic Snow Pusher" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Nordic Snow Pusher</h3>
+            <p class="blurb">Wide alloy blade on a sprung shaft. Clears a path in one pass.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.8 (723 reviews)</span></p>
+            <p class="price-row"><span class="price">$57</span> <span class="was">$78</span></p>
+            <p class="meta-row"><span>Ships in 8–15 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="snow-pusher">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="poly-snow-scoop" data-cat="snow" data-price="34" data-rating="4.4">
+          <div class="card-media">
+            <span class="save-tag">−26%</span>
+            <img src="images/poly-snow-scoop.jpg" alt="Poly Snow Scoop" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Poly Snow Scoop</h3>
+            <p class="blurb">Light polymer blade with a steel wear strip. Won&#x27;t scar decking.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★☆</span>
+              <span>4.4 (289 reviews)</span></p>
+            <p class="price-row"><span class="price">$34</span> <span class="was">$46</span></p>
+            <p class="meta-row"><span>Ships in 10–18 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="poly-snow-scoop">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="sled-scoop" data-cat="snow" data-price="21" data-rating="4.2">
+          <div class="card-media">
+            <span class="save-tag">−34%</span>
+            <img src="images/sled-scoop.jpg" alt="Cadet Snow Scoop" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Cadet Snow Scoop</h3>
+            <p class="blurb">Half-size and high-visibility. The one you hand to a helper.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★☆</span>
+              <span>4.2 (164 reviews)</span></p>
+            <p class="price-row"><span class="price">$21</span> <span class="was">$32</span></p>
+            <p class="meta-row"><span>Ships in 7–12 days</span> <span class="low">Only 6 left</span></p>
+            <button class="btn btn--ghost" type="button" data-add="sled-scoop">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="snow-sleigh" data-cat="snow" data-price="96" data-rating="4.6">
+          <div class="card-media">
+          <span class="badge">New</span>
+            <span class="save-tag">−29%</span>
+            <img src="images/snow-sleigh.jpg" alt="Snow Sleigh Pusher" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Snow Sleigh Pusher</h3>
+            <p class="blurb">Roll-forward hopper for long drives. No lifting, no sore back.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.6 (58 reviews)</span></p>
+            <p class="price-row"><span class="price">$96</span> <span class="was">$135</span></p>
+            <p class="meta-row"><span>Ships in 14–21 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="snow-sleigh">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="alpine-alloy-scoop" data-cat="snow" data-price="79" data-rating="4.9">
+          <div class="card-media">
+          <span class="badge badge--clay">Staff pick</span>
+            <span class="save-tag">−25%</span>
+            <img src="images/alpine-alloy-scoop.jpg" alt="Alpine Alloy Scoop" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Alpine Alloy Scoop</h3>
+            <p class="blurb">Packable backcountry shovel with a telescoping T-grip shaft.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.9 (211 reviews)</span></p>
+            <p class="price-row"><span class="price">$79</span> <span class="was">$105</span></p>
+            <p class="meta-row"><span>Ships in 9–16 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="alpine-alloy-scoop">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="field-shovel" data-cat="trade" data-price="44" data-rating="4.5">
+          <div class="card-media">
+            <span class="save-tag">−27%</span>
+            <img src="images/field-shovel.jpg" alt="Field Shovel" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Field Shovel</h3>
+            <p class="blurb">Short-handled entrenching pattern. Fits behind a truck seat.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.5 (318 reviews)</span></p>
+            <p class="price-row"><span class="price">$44</span> <span class="was">$60</span></p>
+            <p class="meta-row"><span>Ships in 7–14 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="field-shovel">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="trench-spade" data-cat="trade" data-price="66" data-rating="4.6">
+          <div class="card-media">
+          <span class="badge">Heritage</span>
+            <span class="save-tag">−25%</span>
+            <img src="images/trench-spade.jpg" alt="Trench Spade, 1926 Pattern" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Trench Spade, 1926 Pattern</h3>
+            <p class="blurb">Reissue of a service pattern. Straight sides, square shoulders.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★½</span>
+              <span>4.6 (142 reviews)</span></p>
+            <p class="price-row"><span class="price">$66</span> <span class="was">$88</span></p>
+            <p class="meta-row"><span>Ships in 14–21 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="trench-spade">Add to cart</button>
+          </div>
+        </li>
+        <li class="card" data-id="hearth-scoop" data-cat="trade" data-price="29" data-rating="4.4">
+          <div class="card-media">
+            <span class="save-tag">−29%</span>
+            <img src="images/hearth-scoop.jpg" alt="Hearth &amp; Ash Scoop" width="880" height="1100" loading="lazy" decoding="async">
+          </div>
+          <div class="card-body">
+            <h3>Hearth &amp; Ash Scoop</h3>
+            <p class="blurb">Flat-pan scoop for stoves, fire pits and grain bins.</p>
+            <p class="stars"><span class="glyphs" aria-hidden="true">★★★★☆</span>
+              <span>4.4 (203 reviews)</span></p>
+            <p class="price-row"><span class="price">$29</span> <span class="was">$41</span></p>
+            <p class="meta-row"><span>Ships in 9–16 days</span> <span>In stock</span></p>
+            <button class="btn btn--ghost" type="button" data-add="hearth-scoop">Add to cart</button>
+          </div>
+        </li>
+        <li class="empty-state" id="empty-state" hidden>Nothing in that category yet.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="editorial" id="journal">
+    <div class="wrap">
+      <img src="images/editorial-snow.jpg" alt="A snow shovel loaded with fresh snow, leaning against a dark wooden fence" width="1500" height="900" loading="lazy" decoding="async">
+      <div class="editorial-copy">
+        <p class="eyebrow">Journal</p>
+        <h2>Buy the blade, not the sticker</h2>
+        <p>A shovel is three decisions: what the head is made of, how it meets the shaft,
+          and whether the grip suits your height. Everything else is paint. We ask makers
+          the same four questions before we list anything — and we say no more often than yes.</p>
+        <a class="btn btn--ghost" href="#shop">Read our sourcing notes</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews">
+    <div class="wrap">
+      <p class="eyebrow">What people say</p>
+      <h2 class="visually-hidden">Customer reviews</h2>
+      <div class="quotes">
+        <blockquote class="quote">
+          <span class="glyphs" aria-hidden="true">★★★★★</span>
+          <p>&ldquo;Took three weeks to arrive and I&rsquo;d wait again. The border spade goes
+            through root-bound beds like they&rsquo;re nothing.&rdquo;</p>
+          <footer><strong>Marta L.</strong> · Border Spade No. 4</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <span class="glyphs" aria-hidden="true">★★★★☆</span>
+          <p>&ldquo;The snow sleigh is absurd and it works. Cleared 40 metres of drive
+            without lifting a single load.&rdquo;</p>
+          <footer><strong>Devon R.</strong> · Snow Sleigh Pusher</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <span class="glyphs" aria-hidden="true">★★★★★</span>
+          <p>&ldquo;Bought the trowel trio as a filler and they&rsquo;ve outlasted two sets
+            from the garden centre.&rdquo;</p>
+          <footer><strong>Priya N.</strong> · Trowel Trio Set</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="newsletter">
+    <div class="wrap">
+      <div>
+        <h2>Restocks, before they sell out</h2>
+        <p>Small workshops mean small runs. We email when something lands — usually
+          twice a month, never more.</p>
+      </div>
+      <div>
+        <form id="signup" novalidate>
+          <label class="visually-hidden" for="email">Email address</label>
+          <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email">
+          <button class="btn btn--clay" type="submit">Notify me</button>
+        </form>
+        <p class="form-status" id="signup-status" role="status"></p>
+        <p class="note">No sharing, no reselling. Unsubscribe in one click.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-cols">
+      <div class="footer-about">
+        <h4>Spadeway</h4>
+        <p>A small direct-to-door tool shop. We find the shovel, the workshop ships it,
+          you dig the hole.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#shop">Garden &amp; beds</a></li>
+          <li><a href="#shop">Snow &amp; ice</a></li>
+          <li><a href="#shop">Trade &amp; heritage</a></li>
+          <li><a href="#shop">Gift cards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#shop">Delivery times</a></li>
+          <li><a href="#shop">Returns &amp; refunds</a></li>
+          <li><a href="#shop">Track an order</a></li>
+          <li><a href="#shop">Contact us</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>About</h4>
+        <ul>
+          <li><a href="#journal">Journal</a></li>
+          <li><a href="#journal">How we source</a></li>
+          <li><a href="#journal">Guarantee</a></li>
+          <li><a href="#journal">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="demo-notice">
+      <strong>This is a design mockup.</strong> Spadeway is not a real shop — no orders can be
+      placed, no payment is collected, and the prices, ratings, delivery windows and reviews
+      on this page are invented for the demo. The product photography is real, and credited below.
+      <details class="credits">
+        <summary>Photo credits</summary>
+        <ul>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Black_Diamond_Avalanche_shovel_-_0877.jpg" rel="noopener nofollow">Black Diamond Avalanche shovel - 0877.jpg</a> · Amada44 · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Erdbohrerp.jpg" rel="noopener nofollow">Erdbohrerp.jpg</a> · Vermip · <a href="https://creativecommons.org/licenses/by-sa/3.0" rel="noopener nofollow">CC BY-SA 3.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Fiskars_snow_shovel_in_Tuntorp_1.jpg" rel="noopener nofollow">Fiskars snow shovel in Tuntorp 1.jpg</a> · W.carter · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Gardening_tools.jpg" rel="noopener nofollow">Gardening tools.jpg</a> · Beendy234 · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Holsteiner_R%C3%BCffel_G%C3%A4rtnerspaten_Schmiede_Baack.jpg" rel="noopener nofollow">Holsteiner Rüffel Gärtnerspaten Schmiede Baack.jpg</a> · Herba Holo · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Lumikolat.JPG" rel="noopener nofollow">Lumikolat.JPG</a> · SeppVei · Public domain, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Schneeschaufel_snow_shovel.jpg" rel="noopener nofollow">Schneeschaufel snow shovel.jpg</a> · Darkone (talk · contribs) · <a href="https://creativecommons.org/licenses/by-sa/2.5" rel="noopener nofollow">CC BY-SA 2.5</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Shovel_2.jpg" rel="noopener nofollow">Shovel 2.jpg</a> · Beendy234 · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Shovel_24cm_(cropped).jpg" rel="noopener nofollow">Shovel 24cm (cropped).jpg</a> · Sneeboer · <a href="https://creativecommons.org/licenses/by-sa/3.0" rel="noopener nofollow">CC BY-SA 3.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Shovel,_coal_(AM_2003.63.3-1).jpg" rel="noopener nofollow">Shovel, coal (AM 2003.63.3-1).jpg</a> · Unknown · <a href="https://creativecommons.org/licenses/by/4.0" rel="noopener nofollow">CC BY 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Shovel,_entrenching_(AM_782557-1).jpg" rel="noopener nofollow">Shovel, entrenching (AM 782557-1).jpg</a> · not researched · <a href="https://creativecommons.org/licenses/by/4.0" rel="noopener nofollow">CC BY 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Shovel,_trench_(AM_1926.195.21-1).jpg" rel="noopener nofollow">Shovel, trench (AM 1926.195.21-1).jpg</a> · Unknown authorUnknown author · <a href="https://creativecommons.org/licenses/by/4.0" rel="noopener nofollow">CC BY 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Skovl.jpg" rel="noopener nofollow">Skovl.jpg</a> · SvenPek · <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener nofollow">CC BY-SA 4.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Snow_shovel,_rear,_against_wooden_fence.jpg" rel="noopener nofollow">Snow shovel, rear, against wooden fence.jpg</a> · Cbaile19 · <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" rel="noopener nofollow">CC0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Szpadel111.jpg" rel="noopener nofollow">Szpadel111.jpg</a> · Ben P L · <a href="https://creativecommons.org/licenses/by-sa/2.0" rel="noopener nofollow">CC BY-SA 2.0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Transparent_orange_snow_shovel_against_granite_at_F1.8_02.jpg" rel="noopener nofollow">Transparent orange snow shovel against granite at F1.8 02.jpg</a> · Retired electrician · <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" rel="noopener nofollow">CC0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Trowel.jpg" rel="noopener nofollow">Trowel.jpg</a> · Neslihan Gunaydin · <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" rel="noopener nofollow">CC0</a>, via Wikimedia Commons</li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Trowels_for_transplanting_seedlings.jpg" rel="noopener nofollow">Trowels for transplanting seedlings.jpg</a> · Chandapiwa Malema · <a href="http://creativecommons.org/publicdomain/zero/1.0/deed.en" rel="noopener nofollow">CC0</a>, via Wikimedia Commons</li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="legal">
+      <span>&copy; 2026 Spadeway — static demo storefront</span>
+      <span>Built as a single HTML page, one stylesheet and one script.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+  <div class="drawer-head">
+    <h2 id="cart-title">Your cart</h2>
+    <button class="drawer-close" type="button" aria-label="Close cart">&times;</button>
+  </div>
+  <div class="ship-meter">
+    <p id="meter-text">$75 away from free shipping.</p>
+    <div class="track"><div class="fill" id="meter-fill"></div></div>
+  </div>
+  <ul class="cart-items" id="cart-items"></ul>
+  <p class="cart-empty" id="cart-empty">Nothing in here yet. Go and find a shovel.</p>
+  <div class="drawer-foot">
+    <div class="subtotal"><span>Subtotal</span> <strong id="subtotal">$0</strong></div>
+    <p class="fine">Shipping and taxes calculated at checkout.</p>
+    <button class="btn btn--clay btn--block" type="button" id="checkout">Checkout</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
