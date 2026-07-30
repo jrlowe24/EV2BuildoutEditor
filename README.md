@@ -11,6 +11,7 @@ Python 3.9+, no dependencies.
 python3 psc_showtimes.py                    # Odyssey, next 30 days, open showtimes only
 python3 psc_showtimes.py --days 60 --all    # longer window, include sold-out showtimes
 python3 psc_showtimes.py --start 2026-08-08 --end 2026-08-09
+python3 psc_showtimes.py --time 7:30        # only the 7:30PM shows
 python3 psc_showtimes.py -e laser           # any other show (substring of the title)
 python3 psc_showtimes.py -e '' --days 3     # every show
 python3 psc_showtimes.py --list             # what's on sale right now
@@ -73,6 +74,21 @@ Verification only ever *downgrades* a showtime, runs on the handful of open
 candidates (4 at a time, ~6s for a typical query), and reports how many the
 listing got wrong. `--no-verify` skips it and is roughly 6x faster, but then
 you're back to trusting the cache.
+
+If a purchase page can't be reached, that showtime is labelled `(?)` rather than
+being passed off as confirmed — it's the listing's unverified word.
+
+### Availability moves in minutes
+
+Even with verification, this is a snapshot. Popular evening showtimes were
+observed going from genuinely buyable to sold out inside two minutes: seats come
+back when someone's cart expires and are taken almost immediately. Every run
+prints the time it checked, and `--watch` rings the terminal bell when something
+opens up — that's the realistic way to catch a hot showtime:
+
+```bash
+python3 psc_showtimes.py --watch 120 --time 7:30 --days 7
+```
 
 Two smaller details: the endpoint honours the requested date window only
 loosely, so the window is re-applied client-side; and showtimes are Pacific time

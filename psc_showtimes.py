@@ -244,6 +244,7 @@ def collect_showtimes(
     event: str | None,
     start: datetime | None = None,
     end: datetime | None = None,
+    time_filter: str | None = None,
 ) -> list[Showtime]:
     """Flatten productions into a sorted list of showtimes.
 
@@ -251,6 +252,7 @@ def collect_showtimes(
     performances a little outside it — so the window is re-applied here.
     """
     needle = (event or "").strip().lower()
+    want_time = (time_filter or "").strip().lower().replace(" ", "")
     showtimes: list[Showtime] = []
 
     for production in productions:
@@ -262,6 +264,8 @@ def collect_showtimes(
             if start and when < start:
                 continue
             if end and when >= end:
+                continue
+            if want_time and want_time not in (perf.get("displayTime") or "").lower():
                 continue
             showtimes.append(
                 Showtime(
@@ -280,12 +284,19 @@ def collect_showtimes(
     return showtimes
 
 
-def print_table(showtimes: list[Showtime], show_all: bool) -> None:
+def print_table(showtimes: list[Showtime], show_all: bool, verified_run: bool) -> None:
+    # A bookable showtime we could not confirm is a guess, and is labelled as one.
+    def status_of(s: Showtime) -> str:
+        label = STATUS_LABEL[s.status]
+        if verified_run and s.bookable and not s.verified:
+            return label + " (?)"
+        return label
+
     rows = [
         (
             s.display_date or s.starts_at.strftime("%A, %B %-d, %Y"),
             s.display_time or s.starts_at.strftime("%-I:%M%p"),
-            STATUS_LABEL[s.status],
+            status_of(s),
             s.production,
             s.url,
         )
@@ -310,6 +321,15 @@ def print_table(showtimes: list[Showtime], show_all: bool) -> None:
         print(f"\n{open_count} of {len(showtimes)} showtimes still have seats.")
     else:
         print(f"\n{open_count} showtime(s) with seats available.")
+
+    if verified_run and any(s.bookable and not s.verified for s in showtimes):
+        print("(?) = could not reach the purchase page; status is the listing's word.")
+
+    # Availability moves in minutes, so say plainly how stale this already is.
+    print(
+        f"Checked {venue_now():%-I:%M:%S%p} Pacific. Seats can go between "
+        "this check and your click."
+    )
 
 
 def list_productions(productions: list[dict]) -> None:
@@ -348,9 +368,11 @@ def run_once(args) -> tuple[int, list[Showtime]]:
         list_productions(productions)
         return 0, []
 
-    showtimes = collect_showtimes(productions, args.event, start, end)
+    showtimes = collect_showtimes(productions, args.event, start, end, args.time)
     if not showtimes:
         label = f" matching {args.event!r}" if args.event else ""
+        if args.time:
+            label += f" at {args.time!r}"
         print(f"No showtimes{label} between {span}.", file=sys.stderr)
         return 1, []
 
@@ -375,7 +397,7 @@ def run_once(args) -> tuple[int, list[Showtime]]:
             "  (Run with --all to see the full schedule.)"
         )
     else:
-        print_table(showtimes, args.all)
+        print_table(showtimes, args.all, args.verify)
 
     open_showtimes = [s for s in showtimes if s.bookable]
     # Exit 0 only when something is actually buyable, so this can drive a cron alert.
@@ -397,7 +419,8 @@ def watch(args) -> int:
             if seen is not None:
                 fresh = [s for s in open_showtimes if s.performance_id not in seen]
                 if fresh:
-                    print("\n*** Newly available since last check ***")
+                    # Bell: these go fast, so the point is to look up now.
+                    print("\a\n*** Newly available since last check ***")
                     for s in fresh:
                         print(
                             f"  {s.display_date} {s.display_time} — "
@@ -426,6 +449,12 @@ def main(argv: list[str] | None = None) -> int:
         type=int,
         default=30,
         help="days ahead to search from --start (default: %(default)s)",
+    )
+    parser.add_argument(
+        "-t",
+        "--time",
+        metavar="HH:MM",
+        help="only showtimes whose start time contains this, e.g. '7:30' or 'PM'",
     )
     parser.add_argument("--start", metavar="YYYY-MM-DD", help="first date to search")
     parser.add_argument("--end", metavar="YYYY-MM-DD", help="last date; overrides --days")
