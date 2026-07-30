@@ -105,3 +105,44 @@ argument error — so it can drive a cron alert:
 ```
 
 Please keep polling intervals reasonable (minutes, not seconds).
+
+## psc_cart.py — add tickets to the cart
+
+Companion script. Reserves tickets via the flow used by the site's own ticket
+selector, reverse-engineered from `tnew-event-detail.js` and verified end to end:
+
+```
+POST /api/tickets/reservation          (form-urlencoded)
+RequestVerificationToken: <input[name=__RequestVerificationToken]>
+
+performanceId, productionSeasonId, zoneId, isSingleSeatsEnabled, isUnseated
+ticketReservationRequests[0][pricetypeId]   1=Adult(18-64) 2=Youth(3-17) 3=Senior(65+)
+ticketReservationRequests[0][quantity]
+```
+
+```bash
+python3 psc_cart.py --performance 80599 --quantity 2   # 2 adult tickets
+python3 psc_cart.py --timer                            # hold time remaining
+python3 psc_cart.py --cookies                          # cookies for browser handoff
+```
+
+Success returns `{"type":"Success"}` and `GET /api/cart/timer` then counts down
+the hold (**~20 minutes**).
+
+### Two hard limits
+
+Both confirmed by testing, and they shape how this can actually be used:
+
+1. **The cart is not portable.** It lives in a server-side session keyed to this
+   process's cookies (`ASP.NET_SessionId`, `.ASPXFORMSAUTH`, `TNEW`). A cart
+   created by the script is invisible in your browser unless you import those
+   cookies (`--cookies` prints them). That import path is **unverified** — this
+   environment has no browser egress to test it.
+2. **Checkout is impossible from a script.** `/cart` and `/checkout` return
+   **403** to non-browser clients (Imperva/Incapsula WAF), while the JSON APIs
+   are not blocked. A human in a real browser must finish the purchase.
+
+So the realistic play for a hot showtime is: script reserves the seats the
+instant they appear (buying you the ~20 minute hold), and you complete checkout
+in your browser — via the cookie import if it works, or by booking the link
+directly if it doesn't.
