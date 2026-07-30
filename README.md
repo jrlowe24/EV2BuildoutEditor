@@ -16,6 +16,7 @@ python3 psc_showtimes.py -e '' --days 3     # every show
 python3 psc_showtimes.py --list             # what's on sale right now
 python3 psc_showtimes.py --json             # machine-readable
 python3 psc_showtimes.py --watch 300        # re-check every 5 min, flag new openings
+python3 psc_showtimes.py --no-verify        # trust the (stale) listing feed; faster
 ```
 
 Sample output:
@@ -55,7 +56,25 @@ Each performance in the response carries `isOnSale`,
 
 `available` and `limited` count as bookable.
 
-Two details worth knowing: the endpoint honours the requested date window only
+### The listing feed lies
+
+**The listing feed is cached and over-reports availability.** It will report
+`"Limited Seating!"` for a performance whose purchase page already says
+`Sold Out!` — observed live, and the same performance flip-flopped between two
+runs three minutes apart. Trusting it alone means being sent to a dead link.
+
+So every showtime the listing calls bookable is confirmed against its own
+purchase page, which is what actually gates a sale:
+
+* `<p class="tn-event-detail__unavailable-text">Sold Out!</p>` → really gone
+* `id="tn-add-to-cart-button"` → really buyable
+
+Verification only ever *downgrades* a showtime, runs on the handful of open
+candidates (4 at a time, ~6s for a typical query), and reports how many the
+listing got wrong. `--no-verify` skips it and is roughly 6x faster, but then
+you're back to trusting the cache.
+
+Two smaller details: the endpoint honours the requested date window only
 loosely, so the window is re-applied client-side; and showtimes are Pacific time
 while the script may run elsewhere, so "now" is computed in `America/Los_Angeles`.
 

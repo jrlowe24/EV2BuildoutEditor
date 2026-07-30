@@ -11,8 +11,11 @@ directly instead of parsing HTML:
 
 The response is a list of production seasons, each with a `performances` list
 carrying `isOnSale`, `hasLimitedSeatingAvailable` and an HTML status message
-("Sold Out!", "Limited Seating!", ...). That's everything needed to tell an
-open showtime from a sold-out one.
+("Sold Out!", "Limited Seating!", ...).
+
+That feed is cached and over-reports availability, so anything it calls bookable
+is then confirmed against the performance's own purchase page (--no-verify skips
+this). See "The listing feed lies" in the README.
 
 Examples:
     python3 psc_showtimes.py                     # Odyssey, next 30 days, open seats only
@@ -33,6 +36,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 
@@ -86,6 +90,7 @@ class Showtime:
     status: str
     status_message: str
     url: str
+    verified: bool = False
 
     @property
     def bookable(self) -> bool:
@@ -102,6 +107,7 @@ class Showtime:
             "status": self.status,
             "status_message": self.status_message,
             "bookable": self.bookable,
+            "verified": self.verified,
             "url": self.url,
         }
 
@@ -136,6 +142,62 @@ def parse_performance_date(perf: dict) -> datetime:
             continue
         return parsed.replace(tzinfo=None) if parsed.tzinfo else parsed
     return datetime.max
+
+
+def fetch_detail_status(url: str, timeout: float = 30.0) -> tuple[str, str] | None:
+    """Read a performance's purchase page to get its true status.
+
+    The listing feed is cached and can lag by minutes — it will happily report
+    "Limited Seating!" for a performance whose purchase page already says
+    "Sold Out!". The purchase page is what actually gates a sale, so it wins.
+
+    Returns (status, message), or None if the page didn't say either way.
+    """
+    request = urllib.request.Request(
+        url, headers={"User-Agent": USER_AGENT, "Referer": LISTING}
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            body = response.read().decode("utf-8", "replace")
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError):
+        return None
+
+    # TNEW renders one of these two on the event detail page.
+    blocked = re.search(
+        r'tn-event-detail__unavailable-text[^>]*>(.*?)</p>', body, re.S
+    )
+    if blocked:
+        message = strip_html(blocked.group(1))
+        status = SOLD_OUT if "sold out" in message.lower() else NOT_ON_SALE
+        return status, message
+    if "tn-add-to-cart-button" in body:
+        return AVAILABLE, ""
+    return None
+
+
+def verify_showtimes(showtimes: list[Showtime], workers: int = 4) -> int:
+    """Confirm each showtime against its purchase page. Returns the number corrected."""
+    if not showtimes:
+        return 0
+
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        results = list(pool.map(lambda s: fetch_detail_status(s.url), showtimes))
+
+    corrected = 0
+    for showtime, result in zip(showtimes, results):
+        if result is None:
+            continue
+        status, message = result
+        # Only downgrade. A detail page reading "available" doesn't override the
+        # listing's finer-grained "Limited Seating!" note.
+        if status != showtime.status and not (
+            status == AVAILABLE and showtime.status == LIMITED
+        ):
+            showtime.status = status
+            showtime.status_message = message
+            corrected += 1
+        showtime.verified = True
+    return corrected
 
 
 def fetch_productions(start: datetime, end: datetime, timeout: float = 30.0) -> list[dict]:
@@ -292,6 +354,16 @@ def run_once(args) -> tuple[int, list[Showtime]]:
         print(f"No showtimes{label} between {span}.", file=sys.stderr)
         return 1, []
 
+    # The listing feed lags, so double-check anything it claims is buyable.
+    if args.verify:
+        corrected = verify_showtimes([s for s in showtimes if s.bookable])
+        if corrected:
+            print(
+                f"note: {corrected} showtime(s) the listing called available are "
+                "actually gone — corrected below.\n",
+                file=sys.stderr,
+            )
+
     if not args.all:
         showtimes = [s for s in showtimes if s.bookable]
 
@@ -362,6 +434,13 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--json", action="store_true", help="emit JSON instead of a table")
     parser.add_argument(
+        "--no-verify",
+        dest="verify",
+        action="store_false",
+        help="skip confirming each open showtime against its purchase page "
+        "(faster, but the listing feed is cached and over-reports availability)",
+    )
+    parser.add_argument(
         "--list", action="store_true", help="list every production on sale and exit"
     )
     parser.add_argument(
@@ -382,6 +461,12 @@ def main(argv: list[str] | None = None) -> int:
     except FetchError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
+    except BrokenPipeError:
+        # Downstream closed early (e.g. `| head`); exit quietly.
+        try:
+            sys.stdout.close()
+        finally:
+            return 0
     except KeyboardInterrupt:
         print("\nstopped.", file=sys.stderr)
         return 130
